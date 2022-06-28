@@ -71,7 +71,7 @@ curl --location --request POST 'localhost:8080/api/recipe' \
 
 ### Update request
 
-```aidl
+```
 curl --location --request PUT 'localhost:8080/api/recipe/1' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -102,6 +102,6 @@ curl --location --request GET 'localhost:8080/api/recipe?isVegetarian=false&numb
 
 ### Delete recipe
 
-```aidl
+```
 curl --location --request DELETE 'localhost:8080/api/recipe/1'
 ```
