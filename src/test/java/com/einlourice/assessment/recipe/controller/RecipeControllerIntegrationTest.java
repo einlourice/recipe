@@ -176,7 +176,7 @@ public class RecipeControllerIntegrationTest {
                 .andExpect(jsonPath("$[0].isVegetarian", is(true)))
                 .andExpect(jsonPath("$[0].numberOfServings", is(5)));
 
-        mockMvc.perform(get("/api/recipe?ingredientList=notexisting&ingredientFilterType=exclude")
+        mockMvc.perform(get("/api/recipe?ingredientList=notexisting&ingredientFilterType=include")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("[]"));
@@ -187,6 +187,27 @@ public class RecipeControllerIntegrationTest {
                 .andExpect(jsonPath("$[0].name", is("test")))
                 .andExpect(jsonPath("$[0].isVegetarian", is(true)))
                 .andExpect(jsonPath("$[0].numberOfServings", is(5)));
+    }
+
+    @Test
+    public void delete_HappyScenario_OK()
+            throws Exception {
+        Recipe recipe = createDummyRecipe();
+
+        mockMvc.perform(get("/api/recipe")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name", is("test")))
+                .andExpect(jsonPath("$[0].isVegetarian", is(true)))
+                .andExpect(jsonPath("$[0].numberOfServings", is(5)));
+
+        mockMvc.perform(delete("/api/recipe/" + recipe.getId()).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/recipe")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string("[]"));
     }
 
     private Recipe createDummyRecipe() {
